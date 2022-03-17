@@ -75,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
+
     private void startTrackingLocation() {
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
