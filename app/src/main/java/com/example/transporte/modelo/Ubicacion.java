@@ -11,8 +11,19 @@ public class Ubicacion {
 
     private String longitud;
 
+    public String getLatitud(){
+        return latitud;
+    }
 
+    public void setLatitud(String latitud) {
 
+    }
 
+    public String getLongitud() {
+        return longitud;
+    }
 
+    public void setLongitud(String longitud) {
+
+    }
 }

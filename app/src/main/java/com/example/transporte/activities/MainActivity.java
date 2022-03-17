@@ -12,10 +12,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.transporte.R;
-import com.example.transporte.modelo.Ubicacion;
+import com.example.transporte.modelo.Conductor;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -24,11 +28,16 @@ import com.google.android.gms.location.LocationServices;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Switch aSwitch;
+
+    private LinearLayout informacionPasajero;
+
+    private TextView nombre,recogidaRef,destinoRef;
+
+    private Button botonCoordenadas;
 
     private static final int REQUEST_LOCATION_PERMISSION = 1; //Se usa para chequear si tiene permiso
     private static final int FORMAT_DEGREES = 0;
-    private Button botonCoordenadas;
-    Ubicacion coordenadas = new Ubicacion();
 
     private boolean mTrackingLocation;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -39,7 +48,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        botonCoordenadas =  (Button) findViewById(R.id.btnEnServicio);
+        Conductor conductor = new Conductor();
+
+        aSwitch = findViewById(R.id.swEstado);
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    conductor.libre();
+                }
+                else
+                    conductor.desconectar();
+            }
+        });
+
+        informacionPasajero = findViewById(R.id.infoPasajero);
+        nombre = findViewById(R.id.nombrePasajero);
+        recogidaRef = findViewById(R.id.recogidaReferencia);
+        destinoRef = findViewById(R.id.destinoReferencia);
+
+        botonCoordenadas = findViewById(R.id.btnEnServicio);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -68,15 +95,25 @@ public class MainActivity extends AppCompatActivity {
              */
             @Override
             public void onLocationResult(LocationResult locationResult) {
-               Log.e( "Latitud ", convert(locationResult.getLastLocation().getLatitude(),FORMAT_DEGREES)  );
-               Log.e( "Longitud ",convert(locationResult.getLastLocation().getLongitude(),FORMAT_DEGREES) );
+                Log.e( "Latitud ", convert(locationResult.getLastLocation().getLatitude(),FORMAT_DEGREES)  );
+                Log.e( "Longitud ",convert(locationResult.getLastLocation().getLongitude(),FORMAT_DEGREES) );
             }
         };
+
     }
 
+    public void reciboViaje(View view){
+        informacionPasajero.setVisibility(View.VISIBLE);
+        nombre.setText("Nombre: Julian Alvarez");
+        recogidaRef.setText("Recogida: Hotel Hilton");
+        destinoRef.setText("Destino: Areopuerto");
+    }
 
-
-
+    public void navegar(View view){
+        /*Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);*/
+    }
 
     private void startTrackingLocation() {
         if (ActivityCompat.checkSelfPermission(this,
@@ -142,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
-
 
 }
 

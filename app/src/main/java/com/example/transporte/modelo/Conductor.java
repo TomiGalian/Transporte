@@ -17,7 +17,7 @@ public class Conductor {
     private Ubicacion ubicacion;
 
     public void Conductor(){
-        estado = new Libre();
+        estado = new Fuera();
     }
 
     public void desconectar(){
@@ -32,9 +32,12 @@ public class Conductor {
         estado = new Transportando();
     }
 
+    public void libre(){
+        estado = new Libre();
+    }
 
-    public void funcion(){
-
+    public boolean mandarUbicacion(){
+        return estado.mandarUbicacion();
     }
 
 
