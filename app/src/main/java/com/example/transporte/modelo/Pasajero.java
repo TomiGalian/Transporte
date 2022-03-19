@@ -20,6 +20,9 @@ public class Pasajero {
         this.referenciaUbicacion = referenciaUbicacion;
         this.destino = destino;
         this.referenciaDestino = referenciaDestino;
+        /**
+         *  Llamar al pup-up
+         */
     }
 
     public String getReferenciaUbicacion(){
@@ -37,5 +40,7 @@ public class Pasajero {
     public Ubicacion getDestino(){
         return destino;
     }
+
+
 
 }
