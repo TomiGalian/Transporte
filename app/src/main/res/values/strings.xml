@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Transporte</string>
+    <string name="nombre_de_usuario">Nombre de Usuario</string>
+    <string name="contrase_a">Contraseña</string>
+    <string name="iniciar_sesion">Iniciar Sesion</string>
 </resources>

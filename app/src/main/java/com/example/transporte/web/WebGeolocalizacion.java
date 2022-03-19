@@ -10,6 +10,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.transporte.modelo.Conductor;
+import com.example.transporte.web.WebNuevoViaje;
 
 
 import org.xmlpull.v1.XmlPullParser;
@@ -24,7 +26,7 @@ public class WebGeolocalizacion {
     private RequestQueue queue;
 
 
-    public void conectarCoordenadas(Context context)  {
+    public void conectarCoordenadas(Context context, Conductor conductor)  {
         /**
          * SI LE PASAMOS EL CONTEXTO DE LA APP EN VEZ DEL DE LA ACTIVITY VA A SEGUIR FUNCIONANDO AUNQUE DEJE LA ACTIVITY
          *
@@ -34,7 +36,7 @@ public class WebGeolocalizacion {
         queue = Volley.newRequestQueue(context);
 
         StringRequest stringRequest = new StringRequest( Request.Method.GET,
-                urlCoordenadaActual(),
+                urlCoordenadaActual(conductor),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -43,7 +45,7 @@ public class WebGeolocalizacion {
 
                         } catch (XmlPullParserException | IOException e) {
                             e.printStackTrace();
-                            Log.e("Main Activity","ERROR: catch :(");
+                            Log.e("conectarCoordenadas","ERROR: catch :(");
 
                         }
 
@@ -52,7 +54,7 @@ public class WebGeolocalizacion {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("WebParadas","Error del Respnese:" + error.toString());
+                        Log.e("conectarCoordenadas","Error del Respnese:" + error.toString());
                     }
                 });
         stringRequest.setTag("Coordenadas");
@@ -94,6 +96,7 @@ public class WebGeolocalizacion {
                     if(tabla){
                         switch (tag) {
                             case "HOLA":
+                                //LLamar a conectar nuevo viaje
 
                                 break;
                             case "AAAAAAAAAAAAAA":
@@ -113,7 +116,11 @@ public class WebGeolocalizacion {
         } 
     }
 
-    private String urlCoordenadaActual() {
+    private String urlCoordenadaActual(Conductor conductor) {
+        String url="";
+        url+= conductor.getUbicacion().getLatitud();
+        url+= conductor.getUbicacion().getLongitud();
+
         return "";
 
 

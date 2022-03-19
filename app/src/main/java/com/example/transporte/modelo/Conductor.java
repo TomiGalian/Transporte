@@ -16,7 +16,14 @@ public class Conductor {
 
     private Ubicacion ubicacion;
 
-    public void Conductor(){
+    public Conductor(String usuario, String contraseña) {
+        this.usuario=usuario;
+        this.contraseña=contraseña;
+        estado= new Fuera();
+
+    }
+
+    public Conductor(){
         estado = new Fuera();
     }
 
@@ -41,4 +48,13 @@ public class Conductor {
     }
 
 
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public Ubicacion getUbicacion(){    return ubicacion;    }
 }

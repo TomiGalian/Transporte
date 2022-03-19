@@ -8,7 +8,7 @@ public class Pasajero {
 
     private Ubicacion recogida;
 
-    private String referenciaUbicacion;
+    private String referenciaOrigen;
 
     private String referenciaDestino;
 
@@ -17,20 +17,31 @@ public class Pasajero {
     public void Pasajero(String nombre, Ubicacion recogida, Ubicacion destino, String referenciaDestino, String referenciaUbicacion){
         this.nombre = nombre;
         this.recogida = recogida;
-        this.referenciaUbicacion = referenciaUbicacion;
+        this.referenciaOrigen = referenciaUbicacion;
         this.destino = destino;
         this.referenciaDestino = referenciaDestino;
         /**
          *  Llamar al pup-up
+         *  Se puede hacer de varias formas:
+         *          - Suponiendo que la funcion esta en esta clase(fuera de la actuivity)
+         *                  - pasarle el context a esta clase en el oncreate del main
+         *                  - Esto: https://tinyurl.com/OpcionSeba (no me gusta mucho pero seria eficiente)
+         *                  - Sea una notificacion, no se como hacerlo pero bueno
+         *          - En una clase nueva utils https://tinyurl.com/OpcionPro
+         *          - Encontrar una forma de que esta clase llame a una funcion de la Main (+100 de programacion cabeza)
          */
     }
 
-    public String getReferenciaUbicacion(){
-        return referenciaUbicacion;
+    public String getReferenciaOrigen(){
+        return referenciaOrigen;
     }
 
     public String getReferenciaDestino(){
         return referenciaDestino;
+    }
+
+    public String getNombrePasajero(){
+        return nombre;
     }
 
     public Ubicacion getRecogida(){

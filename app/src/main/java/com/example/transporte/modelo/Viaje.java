@@ -9,12 +9,12 @@ public class Viaje {
 
     private Pasajero pasajero;
 
-    //Tiene una tarifa el viaje o va a parte?
 
     public void Viaje(Conductor conductor, Pasajero pasajero){
         this.conductor = conductor;
         this.pasajero = pasajero;
     }
+
 
     public Uri recogerPasajero(){
         Ubicacion ubicacionPasajero = pasajero.getRecogida();

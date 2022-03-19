@@ -9,6 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.transporte.modelo.Conductor;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -16,43 +17,44 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
 
-public class WebNuevoViaje {
+public class WebInicioSesion {
 
     private RequestQueue queue;
 
 
-    public void conectarNuevoViaje(Context context)  {
-        /**
-         * SI LE PASAMOS EL CONTEXTO DE LA APP EN VEZ DEL DE LA ACTIVITY VA A SEGUIR FUNCIONANDO AUNQUE DEJE LA ACTIVITY
-         *
-         *  PATRON singleton: https://developer.android.com/training/volley/requestqueue?hl=es-419
-         */
+    public void conectarInicioSesion(Context context, Conductor conductor)  {
 
         queue = Volley.newRequestQueue(context);
 
         StringRequest stringRequest = new StringRequest( Request.Method.GET,
-                urlCoordenadaActual(),
+                urlInicioSesion(conductor),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             traductor(response,context);
+
                         } catch (XmlPullParserException | IOException e) {
                             e.printStackTrace();
-                            Log.e("conectarNuevoViaje","ERROR: catch :(");
+                            Log.e("conectarInicioSesion","ERROR: catch :(");
+
                         }
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("conectarNuevoViaje","Error del Respnese:" + error.toString());
+                        Log.e("conectarInicioSesion","Error del Respnese:" + error.toString());
                     }
                 });
-        stringRequest.setTag("NuevoViaje");
+        stringRequest.setTag("InicioSesion");
+
+
+        // Add the request to the RequestQueue.
         queue.add(stringRequest);
+        //return termino;
 
     }
 
@@ -61,7 +63,6 @@ public class WebNuevoViaje {
         String tag;
         String dato = "";
         boolean tabla = false;
-        ArrayList<String> coleccionDatos = new ArrayList<String>();
 
         XmlPullParserFactory parserFactory = XmlPullParserFactory.newInstance();
         parserFactory.setNamespaceAware( true );
@@ -86,27 +87,13 @@ public class WebNuevoViaje {
                 case XmlPullParser.END_TAG:
                     if(tabla){
                         switch (tag) {
-                            case "nombre":
-                                coleccionDatos.add(0, dato) ;
-                                break;
-                            case "recogida":
-                                coleccionDatos.add(1, dato) ;
-                                break;
-                            case "referenciaOrigen":
-                                coleccionDatos.add(2, dato) ;
-                                break;
-                            case "destino":
-                                coleccionDatos.add(3, dato) ;
-                                break;
-                            case "referenciaDestino":
-                                coleccionDatos.add(4, dato) ;
-                                break;
-                            case "AAAAAAAAAAAAAA":
-                                /**
-                                 * viaje.Pasajero(coleccionDatos.get( 0 ),coleccionDatos.get( 1 ),coleccionDatos.get( 2 ),coleccionDatos.get( 3 ),coleccionDatos.get( 4 ));
-                                 * coleccionDatos.clear();
-                                 */
+                            case "Error":
 
+                                break;
+                            case "Descr":
+                                /**
+                                 * New intent??
+                                 */
                                 break;
                         }
 
@@ -118,14 +105,19 @@ public class WebNuevoViaje {
             event = parser.next();
         }
         if (queue != null) {
-            queue.cancelAll("NuevoViaje");
+            queue.cancelAll("InicioSesion");
         }
     }
 
-    private String urlCoordenadaActual() {
-        return "";
+    private String urlInicioSesion(Conductor conductor) {
+        String url="";
+        url += conductor.getUsuario();
+        url += conductor.getContraseña();
+
+        return url;
+        // Deberia poder llamar a conductor
+
 
 
     }
-
 }

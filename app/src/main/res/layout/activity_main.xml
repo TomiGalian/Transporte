@@ -24,30 +24,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="Ajustes"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btnEnServicio"
+        android:id="@+id/btnPaxAbordo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="En Servicio"
-        app:layout_constraintBottom_toTopOf="@+id/btnFueraServicio"
+        android:layout_marginBottom="25dp"
+        android:text="Pasajero a Bordo"
+        app:layout_constraintBottom_toTopOf="@+id/btnFinViaje"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btnFueraServicio"
+        android:id="@+id/btnFinViaje"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="Recibir Viaje"
+        android:layout_marginBottom="20dp"
         android:onClick="reciboViaje"
+        android:text="Viaje Finalizado"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -56,13 +56,18 @@
         android:id="@+id/infoPasajero"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="10dp"
         android:background="#AABBCC"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingHorizontal="10dp"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/button"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
         <TextView
@@ -94,7 +99,7 @@
         android:layout_marginBottom="64dp"
         android:text="Navegar"
         android:onClick="navegar"
-        app:layout_constraintBottom_toTopOf="@+id/btnEnServicio"
+        app:layout_constraintBottom_toTopOf="@+id/btnPaxAbordo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

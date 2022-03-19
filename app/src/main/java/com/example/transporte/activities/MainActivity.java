@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.transporte.R;
 import com.example.transporte.modelo.Conductor;
+import com.example.transporte.web.WebGeolocalizacion;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Conductor conductor = new Conductor();
+        WebGeolocalizacion geoloc = new WebGeolocalizacion();
 
         aSwitch = findViewById(R.id.swEstado);
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -66,33 +68,22 @@ public class MainActivity extends AppCompatActivity {
         recogidaRef = findViewById(R.id.recogidaReferencia);
         destinoRef = findViewById(R.id.destinoReferencia);
 
-        botonCoordenadas = findViewById(R.id.btnEnServicio);
+        botonCoordenadas = findViewById(R.id.btnPaxAbordo );
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         botonCoordenadas.setOnClickListener(new View.OnClickListener() {
-            /**
-             * Toggle the tracking state.
-             * @param v The track location button.
-             */
             @Override
             public void onClick(View v) {
                 if (!mTrackingLocation) {
-                    startTrackingLocation();
+                    startTrackingLocation();    /**Hay que pasar esto a que este solo, es decir fuera del onClick*/
                 } else {
                     stopTrackingLocation();
                 }
             }
         });
 
-
-        // Initialize the location callbacks.
         mLocationCallback = new LocationCallback() {
-            /**
-             * This is the callback that is triggered when the
-             * FusedLocationClient updates your location.
-             * @param locationResult The result containing the device location.
-             */
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 Log.e( "Latitud ", convert(locationResult.getLastLocation().getLatitude(),FORMAT_DEGREES)  );
@@ -100,16 +91,21 @@ public class MainActivity extends AppCompatActivity {
                 /**
                  *  Aca llama a conectar del WebGeolocalizacion
                  */
+                geoloc.conectarCoordenadas( getApplicationContext(), conductor );
+
             }
         };
 
     }
 
+    /**
+     * Lo llama cuando se acepta el pop-up del viaje
+     */
     public void reciboViaje(View view){
         informacionPasajero.setVisibility(View.VISIBLE);
-        nombre.setText("Nombre: Julian Alvarez");
-        recogidaRef.setText("Recogida: Hotel Hilton");
-        destinoRef.setText("Destino: Areopuerto");
+        nombre.setText("Nombre: Julian Alvarez");       //getNombrePasajero()
+        recogidaRef.setText("Recogida: Hotel Hilton");  //getReferenciaOrigen()
+        destinoRef.setText("Destino: Areopuerto");      //getReferenciaDestino()
     }
 
     public void navegar(View view){
@@ -132,23 +128,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    /**
-     * Stops tracking the device. Removes the location
-     * updates, stops the animation, and resets the UI.
-     */
     private void stopTrackingLocation() {
         if (mTrackingLocation) {
             mTrackingLocation = false;
         }
     }
 
-
-    /**
-     * Sets up the location request.
-     *
-     * @return The LocationRequest object containing the desired parameters.
-     */
     private LocationRequest getLocationRequest() {
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(10000);
@@ -157,17 +142,6 @@ public class MainActivity extends AppCompatActivity {
         return locationRequest;
     }
 
-    /**
-     * Callback that is invoked when the user responds to the permissions
-     * dialog.
-     *
-     * @param requestCode  Request code representing the permission request
-     *                     issued by the app.
-     * @param permissions  An array that contains the permissions that were
-     *                     requested.
-     * @param grantResults An array with the results of the request for each
-     *                     permission requested.
-     */
     @Override
     public void onRequestPermissionsResult(int requestCode,@NonNull String[] permissions,@NonNull int[] grantResults) {
         super.onRequestPermissionsResult( requestCode, permissions, grantResults );
