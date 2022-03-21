@@ -33,7 +33,7 @@ public class WebNuevoViaje {
         queue = Volley.newRequestQueue(context);
 
         StringRequest stringRequest = new StringRequest( Request.Method.GET,
-                urlCoordenadaActual(),
+                urlNuevoViaje(),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -122,7 +122,7 @@ public class WebNuevoViaje {
         }
     }
 
-    private String urlCoordenadaActual() {
+    private String urlNuevoViaje() {
         return "";
 
 

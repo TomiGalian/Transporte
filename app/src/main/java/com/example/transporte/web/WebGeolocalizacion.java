@@ -97,6 +97,8 @@ public class WebGeolocalizacion {
                         switch (tag) {
                             case "HOLA":
                                 //LLamar a conectar nuevo viaje
+                                WebNuevoViaje nuevoviaje = new WebNuevoViaje();
+                                nuevoviaje.conectarNuevoViaje( context );
 
                                 break;
                             case "AAAAAAAAAAAAAA":
