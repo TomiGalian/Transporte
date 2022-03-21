@@ -9,6 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.transporte.modelo.Conductor;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -23,7 +24,7 @@ public class WebNuevoViaje {
     private RequestQueue queue;
 
 
-    public void conectarNuevoViaje(Context context)  {
+    public void conectarNuevoViaje(Context context, Conductor conductor)  {
         /**
          * SI LE PASAMOS EL CONTEXTO DE LA APP EN VEZ DEL DE LA ACTIVITY VA A SEGUIR FUNCIONANDO AUNQUE DEJE LA ACTIVITY
          *
@@ -38,7 +39,7 @@ public class WebNuevoViaje {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            traductor(response,context);
+                            traductor(response,context,conductor);
                         } catch (XmlPullParserException | IOException e) {
                             e.printStackTrace();
                             Log.e("conectarNuevoViaje","ERROR: catch :(");
@@ -56,7 +57,7 @@ public class WebNuevoViaje {
 
     }
 
-    private void traductor(String istream, Context context) throws XmlPullParserException, IOException {
+    private void traductor(String istream, Context context, Conductor conductor) throws XmlPullParserException, IOException {
 
         String tag;
         String dato = "";
@@ -92,7 +93,7 @@ public class WebNuevoViaje {
                             case "recogida":
                                 coleccionDatos.add(1, dato) ;
                                 break;
-                            case "referenciaOrigen":
+                            case "referenciaRecogida":
                                 coleccionDatos.add(2, dato) ;
                                 break;
                             case "destino":
@@ -102,10 +103,8 @@ public class WebNuevoViaje {
                                 coleccionDatos.add(4, dato) ;
                                 break;
                             case "AAAAAAAAAAAAAA":
-                                /**
-                                 * viaje.Pasajero(coleccionDatos.get( 0 ),coleccionDatos.get( 1 ),coleccionDatos.get( 2 ),coleccionDatos.get( 3 ),coleccionDatos.get( 4 ));
-                                 * coleccionDatos.clear();
-                                 */
+                                //conductor.nuevoViaje(coleccionDatos.get( 0 ),coleccionDatos.get( 1 ),coleccionDatos.get( 2 ),coleccionDatos.get( 3 ),coleccionDatos.get( 4 ));
+                                coleccionDatos.clear();
 
                                 break;
                         }

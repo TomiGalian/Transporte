@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,8 +51,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Conductor conductor = new Conductor();
+        Intent intent = getIntent();
+        Conductor conductor = intent.getParcelableExtra("conductor");
         WebGeolocalizacion geoloc = new WebGeolocalizacion();
+
+        Intent i = new Intent(getApplicationContext(),PopActivity.class);
+        startActivity(i);
 
         aSwitch = findViewById(R.id.swEstado);
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -92,6 +98,10 @@ public class MainActivity extends AppCompatActivity {
                  *  Aca llama a conectar del WebGeolocalizacion
                  */
                 geoloc.conectarCoordenadas( getApplicationContext(), conductor );
+                if(conductor.tieneViaje()){
+                    Intent i = new Intent(getApplicationContext(),PopActivity.class);
+                    startActivity(i);
+                }
 
             }
         };

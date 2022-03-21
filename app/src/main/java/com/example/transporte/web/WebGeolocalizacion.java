@@ -41,7 +41,7 @@ public class WebGeolocalizacion {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            traductor(response,context);
+                            traductor(response,context,conductor);
 
                         } catch (XmlPullParserException | IOException e) {
                             e.printStackTrace();
@@ -66,7 +66,7 @@ public class WebGeolocalizacion {
 
     }
 
-    private void traductor(String istream, Context context) throws XmlPullParserException, IOException {
+    private void traductor(String istream, Context context, Conductor conductor) throws XmlPullParserException, IOException {
 
         String tag;
         String dato = "";
@@ -98,7 +98,7 @@ public class WebGeolocalizacion {
                             case "HOLA":
                                 //LLamar a conectar nuevo viaje
                                 WebNuevoViaje nuevoviaje = new WebNuevoViaje();
-                                nuevoviaje.conectarNuevoViaje( context );
+                                nuevoviaje.conectarNuevoViaje( context ,conductor);
 
                                 break;
                             case "AAAAAAAAAAAAAA":

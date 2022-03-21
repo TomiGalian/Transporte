@@ -3,6 +3,7 @@ package com.example.transporte.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,8 @@ import com.example.transporte.R;
 import com.example.transporte.modelo.Conductor;
 import com.example.transporte.modelo.Viaje;
 import com.example.transporte.web.WebInicioSesion;
+
+import java.io.Serializable;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -41,9 +44,16 @@ public class LoginActivity extends AppCompatActivity {
                         Log.e("Usuario", usr.getText().toString());
                         Log.e("Password", pass.getText().toString());
                         clase.conectarInicioSesion( getApplicationContext(), conductor );
+                        irAlMain();
 
                     }
                 });
+    }
+
+    private void irAlMain() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.putExtra("conductor", (Serializable) conductor);
+        startActivity(intent);
     }
 
 

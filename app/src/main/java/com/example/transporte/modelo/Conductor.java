@@ -14,13 +14,26 @@ public class Conductor {
 
     private String contraseña;
 
+    private Viaje viaje;
+
     private Ubicacion ubicacion;
 
     public Conductor(String usuario, String contraseña) {
         this.usuario=usuario;
         this.contraseña=contraseña;
         estado= new Fuera();
+        viaje = null;
 
+    }
+
+    public boolean tieneViaje(){
+        if(viaje == null)
+            return false;
+        return true;
+    }
+
+    public void nuevoViaje(String nombre, Ubicacion recogida, String referenciaRecogida, Ubicacion destino, String referenciaDestino){
+        viaje = new Viaje(new Pasajero(nombre,recogida,destino,referenciaDestino,referenciaRecogida));
     }
 
     public Conductor(){

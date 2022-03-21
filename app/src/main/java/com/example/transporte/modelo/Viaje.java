@@ -5,14 +5,14 @@ import android.net.Uri;
 
 public class Viaje {
 
-    private Conductor conductor;
-
     private Pasajero pasajero;
 
-
-    public void Viaje(Conductor conductor, Pasajero pasajero){
-        this.conductor = conductor;
+    public Viaje(Pasajero pasajero) {
         this.pasajero = pasajero;
+    }
+
+    public Viaje(){
+        this.pasajero = null;
     }
 
 

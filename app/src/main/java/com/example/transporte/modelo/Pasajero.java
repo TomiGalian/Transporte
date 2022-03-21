@@ -1,5 +1,7 @@
 package com.example.transporte.modelo;
 
+import android.app.AlertDialog;
+
 import java.util.ArrayList;
 
 public class Pasajero {
@@ -14,7 +16,7 @@ public class Pasajero {
 
     private Ubicacion destino;
 
-    public void Pasajero(String nombre, Ubicacion recogida, Ubicacion destino, String referenciaDestino, String referenciaUbicacion){
+    public Pasajero(String nombre, Ubicacion recogida, Ubicacion destino, String referenciaDestino, String referenciaUbicacion){
         this.nombre = nombre;
         this.recogida = recogida;
         this.referenciaOrigen = referenciaUbicacion;
@@ -26,6 +28,8 @@ public class Pasajero {
          *          - Suponiendo que la funcion esta en esta clase(fuera de la actuivity)
          *                  - pasarle el context a esta clase en el oncreate del main
          *                  - Esto: https://tinyurl.com/OpcionSeba (no me gusta mucho pero seria eficiente)
+         *                      AlertDialog alertDialog = new AlertDialog().getWindow().setType();
+         *                      alertDialog.show();
          *                  - Sea una notificacion, no se como hacerlo pero bueno
          *          - En una clase nueva utils https://tinyurl.com/OpcionPro
          *          - Encontrar una forma de que esta clase llame a una funcion de la Main (+100 de programacion cabeza)
