@@ -9,6 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.transporte.modelo.Conductor;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -22,12 +23,12 @@ public class WebEstados {
     private RequestQueue queue;
 
 
-    public void conectarEstadoNuevo(Context context)  {
+    public void conectarEstadoNuevo(Context context, Conductor conductor)  {
 
         queue = Volley.newRequestQueue(context);
 
         StringRequest stringRequest = new StringRequest( Request.Method.GET,
-                urlEstadoNuevo(),
+                urlEstadoNuevo(conductor),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -106,7 +107,9 @@ public class WebEstados {
         }
     }
 
-    private String urlEstadoNuevo() {
+    private String urlEstadoNuevo(Conductor conductor) {
+
+
         return "";
 
 

@@ -50,6 +50,8 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    //          OJO ACA QUE EL INTENT TIENE QUE IR SI EL WEB RESPONDIO TODO OK
+    //          POR AHORA LO DEJAMOS PARA PROBAR PERO HAY QUE SACARLO DSP
     private void irAlMain() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.putExtra("conductor", (Serializable) conductor);

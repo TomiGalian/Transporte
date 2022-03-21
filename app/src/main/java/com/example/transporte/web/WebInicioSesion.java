@@ -1,6 +1,7 @@
 package com.example.transporte.web;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -9,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.transporte.activities.MainActivity;
 import com.example.transporte.modelo.Conductor;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -16,6 +18,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.StringReader;
 
 public class WebInicioSesion {
@@ -33,7 +36,7 @@ public class WebInicioSesion {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            traductor(response,context);
+                            traductor(response,context,conductor);
 
                         } catch (XmlPullParserException | IOException e) {
                             e.printStackTrace();
@@ -58,7 +61,7 @@ public class WebInicioSesion {
 
     }
 
-    private void traductor(String istream, Context context) throws XmlPullParserException, IOException {
+    private void traductor(String istream, Context context, Conductor conductor) throws XmlPullParserException, IOException {
 
         String tag;
         String dato = "";
@@ -92,8 +95,12 @@ public class WebInicioSesion {
                                 break;
                             case "Descr":
                                 /**
-                                 * New intent??
+                                 * SI FUNCIONA BIEN
                                  */
+                                Intent intent = new Intent(context, MainActivity.class);
+                                intent.putExtra("conductor", (Serializable) conductor);
+                                context.startActivity(intent);
+
                                 break;
                         }
 

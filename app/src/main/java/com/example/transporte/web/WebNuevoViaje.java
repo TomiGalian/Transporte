@@ -104,8 +104,8 @@ public class WebNuevoViaje {
                                 break;
                             case "AAAAAAAAAAAAAA":
                                 //conductor.nuevoViaje(coleccionDatos.get( 0 ),coleccionDatos.get( 1 ),coleccionDatos.get( 2 ),coleccionDatos.get( 3 ),coleccionDatos.get( 4 ));
-                                coleccionDatos.clear();
 
+                                coleccionDatos.clear();
                                 break;
                         }
 

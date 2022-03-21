@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.transporte.R;
 import com.example.transporte.modelo.Conductor;
+import com.example.transporte.web.WebEstados;
 import com.example.transporte.web.WebGeolocalizacion;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView nombre,recogidaRef,destinoRef;
 
-    private Button botonCoordenadas;
+    private Button botonABordo, botonFinalizado;
 
     private static final int REQUEST_LOCATION_PERMISSION = 1; //Se usa para chequear si tiene permiso
     private static final int FORMAT_DEGREES = 0;
@@ -54,9 +55,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Conductor conductor = intent.getParcelableExtra("conductor");
         WebGeolocalizacion geoloc = new WebGeolocalizacion();
+        WebEstados estados = new WebEstados();
 
         Intent i = new Intent(getApplicationContext(),PopActivity.class);
         startActivity(i);
+
+        startTrackingLocation();
 
         aSwitch = findViewById(R.id.swEstado);
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -64,8 +68,11 @@ public class MainActivity extends AppCompatActivity {
                 if(isChecked){
                     conductor.libre();
                 }
-                else
+                else{
                     conductor.desconectar();
+                    stopTrackingLocation(); //TODO: NO FUNCIONA ESTO xd
+                }
+                    estados.conectarEstadoNuevo( getApplicationContext(), conductor ); //????
             }
         });
 
@@ -74,18 +81,25 @@ public class MainActivity extends AppCompatActivity {
         recogidaRef = findViewById(R.id.recogidaReferencia);
         destinoRef = findViewById(R.id.destinoReferencia);
 
-        botonCoordenadas = findViewById(R.id.btnPaxAbordo );
+        botonABordo = findViewById(R.id.btnPaxAbordo );
+        botonFinalizado = findViewById( R.id.btnFinViaje );
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        botonCoordenadas.setOnClickListener(new View.OnClickListener() {
+
+        botonABordo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mTrackingLocation) {
-                    startTrackingLocation();    /**Hay que pasar esto a que este solo, es decir fuera del onClick*/
-                } else {
-                    stopTrackingLocation();
-                }
+                conductor.transportando();
+                estados.conectarEstadoNuevo( getApplicationContext(), conductor );
+            }
+        });
+
+        botonFinalizado.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                conductor.libre();
+                estados.conectarEstadoNuevo( getApplicationContext(), conductor );
             }
         });
 
@@ -94,10 +108,9 @@ public class MainActivity extends AppCompatActivity {
             public void onLocationResult(LocationResult locationResult) {
                 Log.e( "Latitud ", convert(locationResult.getLastLocation().getLatitude(),FORMAT_DEGREES)  );
                 Log.e( "Longitud ",convert(locationResult.getLastLocation().getLongitude(),FORMAT_DEGREES) );
-                /**
-                 *  Aca llama a conectar del WebGeolocalizacion
-                 */
+
                 geoloc.conectarCoordenadas( getApplicationContext(), conductor );
+
                 if(conductor.tieneViaje()){
                     Intent i = new Intent(getApplicationContext(),PopActivity.class);
                     startActivity(i);
@@ -146,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
     private LocationRequest getLocationRequest() {
         LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(10000);
+        locationRequest.setInterval(10000);     //TODO: Cambiar a 1min (60mil)
         locationRequest.setFastestInterval(5000);
         locationRequest.setPriority( LocationRequest.PRIORITY_HIGH_ACCURACY);
         return locationRequest;

@@ -40,21 +40,17 @@ public class Conductor {
         estado = new Fuera();
     }
 
-    public void desconectar(){
+    public void desconectar() {
         estado = new Fuera();
-    }
+    }   //FUERA DE SERVICIO
 
     public void enCamino(){
         estado = new Camino();
-    }
+    }       //TODO: ???
 
-    public void transportando(){
-        estado = new Transportando();
-    }
+    public void transportando(){ estado = new Transportando(); }   //TIENE UN PASAJERO A BORDO DEL COCHE Y YENDO A DESTINO
 
-    public void libre(){
-        estado = new Libre();
-    }
+    public void libre(){ estado = new Libre(); }       //DESPACHO AL ULTIMO PASAJERO  Y ESTA ESPERANDO UNO NUEVO
 
     public boolean mandarUbicacion(){
         return estado.mandarUbicacion();
