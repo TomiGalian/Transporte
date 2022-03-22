@@ -56,6 +56,9 @@ public class Conductor {
         return estado.mandarUbicacion();
     }
 
+    public String getEstado(){
+        return estado.getEstado();
+    }
 
     public String getUsuario() {
         return usuario;

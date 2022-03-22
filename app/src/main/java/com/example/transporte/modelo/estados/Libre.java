@@ -6,4 +6,9 @@ public class Libre implements Estado {
     public boolean mandarUbicacion() {
         return true;
     }
+
+    @Override
+    public String getEstado() {
+        return "Libre";
+    }
 }

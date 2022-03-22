@@ -6,4 +6,9 @@ public class Transportando implements Estado{
     public boolean mandarUbicacion() {
         return false;
     }
+
+    @Override
+    public String getEstado() {
+        return "Transportando";
+    }
 }

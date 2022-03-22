@@ -53,12 +53,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        Conductor conductor = intent.getParcelableExtra("conductor");
+        //Conductor conductor = intent.getParcelableExtra("conductor");
+        Conductor conductor = new Conductor();
         WebGeolocalizacion geoloc = new WebGeolocalizacion();
         WebEstados estados = new WebEstados();
-
-        Intent i = new Intent(getApplicationContext(),PopActivity.class);
-        startActivity(i);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -68,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     conductor.libre();
+                    Intent i = new Intent(getApplicationContext(),PopActivity.class);
+                    startActivity(i);
                 }
                 else{
                     conductor.desconectar();
@@ -116,9 +116,7 @@ public class MainActivity extends AppCompatActivity {
         botonNavegar.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);*/
+
             }
         } );
 
@@ -133,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 if (locationResult.getLastLocation() != null) {
                     Log.e( "Latitud ", convert(locationResult.getLastLocation().getLatitude(),FORMAT_DEGREES)  );
                     Log.e( "Longitud ",convert(locationResult.getLastLocation().getLongitude(),FORMAT_DEGREES) );
-                    if(false){
+                    if(conductor.tieneViaje()){
                         Intent i = new Intent(getApplicationContext(),PopActivity.class);
                         startActivity(i);
                     }
@@ -156,9 +154,8 @@ public class MainActivity extends AppCompatActivity {
      */
     public void reciboViaje(View view){
         informacionPasajero.setVisibility(View.VISIBLE);
-        nombre.setText("Nombre: Julian Alvarez");       //getNombrePasajero()
-        recogidaRef.setText("Recogida: Hotel Hilton");  //getReferenciaOrigen()
-        destinoRef.setText("Destino: Areopuerto");      //getReferenciaDestino()
+        Intent i = new Intent(getApplicationContext(),PopActivity.class);
+        startActivity(i);
         botonABordo.setEnabled( true );
         botonNavegar.setEnabled( true );
     }
