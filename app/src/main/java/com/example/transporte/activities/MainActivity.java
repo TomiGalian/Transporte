@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView nombre,recogidaRef,destinoRef;
 
-    private Button botonABordo, botonFinalizado;
+    private Button botonABordo, botonFinalizado, botonNavegar;
 
     private static final int REQUEST_LOCATION_PERMISSION = 1; //Se usa para chequear si tiene permiso
     private static final int FORMAT_DEGREES = 0;
@@ -60,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(),PopActivity.class);
         startActivity(i);
 
-        startTrackingLocation();
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
 
         aSwitch = findViewById(R.id.swEstado);
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     conductor.desconectar();
                     stopTrackingLocation(); //TODO: NO FUNCIONA ESTO xd
                 }
-                    estados.conectarEstadoNuevo( getApplicationContext(), conductor ); //????
+                    //estados.conectarEstadoNuevo( getApplicationContext(), conductor ); //????
             }
         });
 
@@ -82,16 +83,23 @@ public class MainActivity extends AppCompatActivity {
         destinoRef = findViewById(R.id.destinoReferencia);
 
         botonABordo = findViewById(R.id.btnPaxAbordo );
+        botonABordo.setEnabled( false );
         botonFinalizado = findViewById( R.id.btnFinViaje );
+        botonFinalizado.setEnabled( false );
+        botonNavegar = findViewById( R.id.btnNavegar );
+        botonNavegar.setEnabled( false );
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+
 
 
         botonABordo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 conductor.transportando();
-                estados.conectarEstadoNuevo( getApplicationContext(), conductor );
+                //estados.conectarEstadoNuevo( getApplicationContext(), conductor );
+                botonABordo.setEnabled( false );
+                botonFinalizado.setEnabled( true );
             }
         });
 
@@ -99,25 +107,47 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 conductor.libre();
-                estados.conectarEstadoNuevo( getApplicationContext(), conductor );
+                //estados.conectarEstadoNuevo( getApplicationContext(), conductor );
+                botonFinalizado.setEnabled( false );
+                botonNavegar.setEnabled( false );
             }
         });
+
+        botonNavegar.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);*/
+            }
+        } );
 
         mLocationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
-                Log.e( "Latitud ", convert(locationResult.getLastLocation().getLatitude(),FORMAT_DEGREES)  );
-                Log.e( "Longitud ",convert(locationResult.getLastLocation().getLongitude(),FORMAT_DEGREES) );
 
-                geoloc.conectarCoordenadas( getApplicationContext(), conductor );
-
-                if(conductor.tieneViaje()){
-                    Intent i = new Intent(getApplicationContext(),PopActivity.class);
-                    startActivity(i);
+                if (locationResult == null) {
+                    return;
                 }
 
+                if (locationResult.getLastLocation() != null) {
+                    Log.e( "Latitud ", convert(locationResult.getLastLocation().getLatitude(),FORMAT_DEGREES)  );
+                    Log.e( "Longitud ",convert(locationResult.getLastLocation().getLongitude(),FORMAT_DEGREES) );
+                    if(false){
+                        Intent i = new Intent(getApplicationContext(),PopActivity.class);
+                        startActivity(i);
+                    }
+                    //geoloc.conectarCoordenadas( getApplicationContext(), conductor );
+                }
             }
         };
+
+    }
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+        startTrackingLocation();
 
     }
 
@@ -129,21 +159,14 @@ public class MainActivity extends AppCompatActivity {
         nombre.setText("Nombre: Julian Alvarez");       //getNombrePasajero()
         recogidaRef.setText("Recogida: Hotel Hilton");  //getReferenciaOrigen()
         destinoRef.setText("Destino: Areopuerto");      //getReferenciaDestino()
+        botonABordo.setEnabled( true );
+        botonNavegar.setEnabled( true );
     }
 
-    public void navegar(View view){
-        /*Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);*/
-    }
 
     private void startTrackingLocation() {
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]
-                            {Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_LOCATION_PERMISSION);
+        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
         } else {
             mTrackingLocation = true;
             mFusedLocationClient.requestLocationUpdates(getLocationRequest(),mLocationCallback,null /* Looper */);

@@ -46,7 +46,7 @@ public class Conductor {
 
     public void enCamino(){
         estado = new Camino();
-    }       //TODO: ???
+    }       //Esta yendo a buscar al pasajero
 
     public void transportando(){ estado = new Transportando(); }   //TIENE UN PASAJERO A BORDO DEL COCHE Y YENDO A DESTINO
 

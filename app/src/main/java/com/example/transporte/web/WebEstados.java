@@ -88,7 +88,8 @@ public class WebEstados {
                     if(tabla){
                         switch (tag) {
                             case "HOLA":
-
+                                //Tendriamos que hacer algo asi como que lo vuelva a mandar hasta que entre
+                                //Porq tampoco queremos al conductor tocando el boton repetidamente porque no se conecta
                                 break;
                             case "AAAAAAAAAAAAAA":
                                 //cerrar
