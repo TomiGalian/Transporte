@@ -10,6 +10,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.transporte.R;
 import com.example.transporte.modelo.Conductor;
+import com.example.transporte.modelo.Ubicacion;
 import com.example.transporte.web.WebEstados;
 import com.example.transporte.web.WebGeolocalizacion;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -30,6 +32,8 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
+import java.io.Serializable;
+
 public class MainActivity extends AppCompatActivity {
 
     private Switch aSwitch;
@@ -37,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout informacionPasajero;
 
     private TextView nombre,recogidaRef,destinoRef;
+
+    private Conductor conductor;
 
     private Button botonABordo, botonFinalizado, botonNavegar;
 
@@ -53,25 +59,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        //Conductor conductor = intent.getParcelableExtra("conductor");
-        Conductor conductor = new Conductor();
+        conductor = (Conductor) intent.getSerializableExtra( "conductor" );
+        //conductor = new Conductor();
         WebGeolocalizacion geoloc = new WebGeolocalizacion();
         WebEstados estados = new WebEstados();
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-
+        Log.e( "MAin","MandarUbicacion=" +  conductor.mandarUbicacion());
         aSwitch = findViewById(R.id.swEstado);
+        if(conductor.mandarUbicacion()){
+            aSwitch.setChecked( true );
+
+        }
+
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     conductor.libre();
+                    conductor.nuevoViaje("Robertito","-34.63546964021847","-58.364756302115595","Bombonera","-34.814810596004655","-58.53482840210992","Aeropuerto Ezeiza");
                     Intent i = new Intent(getApplicationContext(),PopActivity.class);
+                    i.putExtra("conductor", (Serializable) conductor );
                     startActivity(i);
                 }
                 else{
                     conductor.desconectar();
-                    stopTrackingLocation(); //TODO: NO FUNCIONA ESTO xd
+                    //stopTrackingLocation(); //TODO: NO FUNCIONA ESTO xd
                 }
                     //estados.conectarEstadoNuevo( getApplicationContext(), conductor ); //????
             }
@@ -88,9 +101,6 @@ public class MainActivity extends AppCompatActivity {
         botonFinalizado.setEnabled( false );
         botonNavegar = findViewById( R.id.btnNavegar );
         botonNavegar.setEnabled( false );
-
-
-
 
 
         botonABordo.setOnClickListener(new View.OnClickListener() {
@@ -110,12 +120,18 @@ public class MainActivity extends AppCompatActivity {
                 //estados.conectarEstadoNuevo( getApplicationContext(), conductor );
                 botonFinalizado.setEnabled( false );
                 botonNavegar.setEnabled( false );
+                informacionPasajero.setVisibility(View.INVISIBLE);
+
             }
         });
 
         botonNavegar.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Uri uri =conductor.conducir();
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
 
             }
         } );
@@ -123,41 +139,40 @@ public class MainActivity extends AppCompatActivity {
         mLocationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
-
                 if (locationResult == null) {
                     return;
                 }
-
                 if (locationResult.getLastLocation() != null) {
                     Log.e( "Latitud ", convert(locationResult.getLastLocation().getLatitude(),FORMAT_DEGREES)  );
                     Log.e( "Longitud ",convert(locationResult.getLastLocation().getLongitude(),FORMAT_DEGREES) );
-                    if(conductor.tieneViaje()){
-                        Intent i = new Intent(getApplicationContext(),PopActivity.class);
-                        startActivity(i);
-                    }
                     //geoloc.conectarCoordenadas( getApplicationContext(), conductor );
                 }
             }
         };
 
+        if(conductor.tieneViaje()){
+            viajeAceptado();
+            Log.e( "ViajeAceptado","Acepto el viaje" );
+        }
+
     }
     @Override
     protected void onStart() {
-
         super.onStart();
         startTrackingLocation();
-
+        Log.e( "OnStart","Entro Al OnStart" );
     }
 
-    /**
-     * Lo llama cuando se acepta el pop-up del viaje
-     */
-    public void reciboViaje(View view){
-        informacionPasajero.setVisibility(View.VISIBLE);
-        Intent i = new Intent(getApplicationContext(),PopActivity.class);
-        startActivity(i);
+    public void viajeAceptado(){
+        //informacionPasajero.setVisibility(View.VISIBLE);
         botonABordo.setEnabled( true );
         botonNavegar.setEnabled( true );
+        informacionPasajero.setVisibility(View.VISIBLE);
+        nombre.setText("Nombre del Pasajaero: "+conductor.getViaje().getPasajero().getNombrePasajero());
+        recogidaRef.setText("Origen: "+conductor.getViaje().getPasajero().getReferenciaOrigen());
+        destinoRef.setText("Destino: "+conductor.getViaje().getPasajero().getReferenciaDestino());
+
+
     }
 
 
@@ -179,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
     private LocationRequest getLocationRequest() {
         LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(10000);     //TODO: Cambiar a 1min (60mil)
+        locationRequest.setInterval(60000);     //TODO: Cambiar a 1min (60mil)
         locationRequest.setFastestInterval(5000);
         locationRequest.setPriority( LocationRequest.PRIORITY_HIGH_ACCURACY);
         return locationRequest;

@@ -2,9 +2,10 @@ package com.example.transporte.modelo;
 
 import android.app.AlertDialog;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Pasajero {
+public class Pasajero implements Serializable {
 
     private String nombre;
 

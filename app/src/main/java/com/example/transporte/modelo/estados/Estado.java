@@ -1,8 +1,16 @@
 package com.example.transporte.modelo.estados;
 
-public interface Estado {
+import android.net.Uri;
+
+import com.example.transporte.modelo.Viaje;
+
+import java.io.Serializable;
+
+public interface Estado extends Serializable {
 
     boolean mandarUbicacion();
 
     String getEstado();
+
+    Uri conducir(Viaje viaje);
 }

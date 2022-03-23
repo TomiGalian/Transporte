@@ -30,13 +30,21 @@ public class PopActivity extends Activity {
 
     private Button btnAceptar;
 
+    private Conductor conductor;
+
+    /*
+    *   Bloquear que no se pueda apretar afuera del pop-up
+    *   boton cancelar ---> pone el viaje en NULL(cancelar viaje)
+    *
+    * */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pop);
 
-        //Intent intent = getIntent();
-        //Conductor conductor = intent.getParcelableExtra("conductor");
+        Intent intent = getIntent();
+        conductor = (Conductor) intent.getSerializableExtra("conductor");
 
         getActionBar().hide();
 
@@ -44,9 +52,11 @@ public class PopActivity extends Activity {
         btnAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                conductor.enCamino();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                //intent.putExtra("conductor", (Serializable) conductor);
+                intent.putExtra("conductor", (Serializable) conductor);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -77,11 +87,10 @@ public class PopActivity extends Activity {
         destinoRef = findViewById(R.id.destinoReferencia);
 
         informacionPasajero.setVisibility(View.VISIBLE);
-        nombre.setText("Nombre: Julian Alvarez");       //getNombrePasajero()
-        recogidaRef.setText("Recogida: Hotel Hilton");  //getReferenciaOrigen()
-        destinoRef.setText("Destino: Areopuerto");      //getReferenciaDestino()
+        nombre.setText(conductor.getViaje().getPasajero().getNombrePasajero());
+        recogidaRef.setText(conductor.getViaje().getPasajero().getReferenciaOrigen());
+        destinoRef.setText(conductor.getViaje().getPasajero().getReferenciaDestino());
+
+
     }
-
-
-
 }

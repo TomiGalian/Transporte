@@ -3,7 +3,9 @@ package com.example.transporte.modelo;
 
 import android.net.Uri;
 
-public class Viaje {
+import java.io.Serializable;
+
+public class Viaje implements Serializable {
 
     private Pasajero pasajero;
 
@@ -31,4 +33,7 @@ public class Viaje {
     }
 
 
+    public Pasajero getPasajero() {
+        return pasajero;
+    }
 }

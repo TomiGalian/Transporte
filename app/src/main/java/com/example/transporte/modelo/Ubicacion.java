@@ -5,11 +5,18 @@ import android.content.pm.PackageManager;
 
 import androidx.core.app.ActivityCompat;
 
-public class Ubicacion {
+import java.io.Serializable;
+
+public class Ubicacion implements Serializable {
 
     private String latitud;
 
     private String longitud;
+
+    public Ubicacion(String latitud, String longitud){
+        this.latitud=latitud;
+        this.longitud=longitud;
+    }
 
     public String getLatitud(){
         return latitud;

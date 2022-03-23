@@ -10,6 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.transporte.modelo.Conductor;
+import com.example.transporte.modelo.Ubicacion;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -63,6 +64,7 @@ public class WebNuevoViaje {
         String dato = "";
         boolean tabla = false;
         ArrayList<String> coleccionDatos = new ArrayList<String>();
+        String latitud="0";
 
         XmlPullParserFactory parserFactory = XmlPullParserFactory.newInstance();
         parserFactory.setNamespaceAware( true );
@@ -90,21 +92,26 @@ public class WebNuevoViaje {
                             case "nombre":
                                 coleccionDatos.add(0, dato) ;
                                 break;
-                            case "recogida":
+                            case "recogidaLatitud":
                                 coleccionDatos.add(1, dato) ;
                                 break;
-                            case "referenciaRecogida":
+                            case "recogidaLongitud":
                                 coleccionDatos.add(2, dato) ;
                                 break;
-                            case "destino":
+                            case "referenciaRecogida":
                                 coleccionDatos.add(3, dato) ;
                                 break;
-                            case "referenciaDestino":
+                            case "destinoLatitud":
                                 coleccionDatos.add(4, dato) ;
                                 break;
+                            case "destinoLongitud":
+                                coleccionDatos.add(5, dato) ;
+                                break;
+                            case "referenciaDestino":
+                                coleccionDatos.add(6, dato) ;
+                                break;
                             case "AAAAAAAAAAAAAA":
-                                //conductor.nuevoViaje(coleccionDatos.get( 0 ),coleccionDatos.get( 1 ),coleccionDatos.get( 2 ),coleccionDatos.get( 3 ),coleccionDatos.get( 4 ));
-
+                                conductor.nuevoViaje(coleccionDatos.get( 0 ),coleccionDatos.get( 1 ),coleccionDatos.get( 2 ),coleccionDatos.get( 3 ),coleccionDatos.get( 4 ),coleccionDatos.get( 5 ),coleccionDatos.get( 6 ));
                                 coleccionDatos.clear();
                                 break;
                         }

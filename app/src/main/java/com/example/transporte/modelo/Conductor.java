@@ -1,12 +1,16 @@
 package com.example.transporte.modelo;
 
+import android.net.Uri;
+
 import com.example.transporte.modelo.estados.Camino;
 import com.example.transporte.modelo.estados.Estado;
 import com.example.transporte.modelo.estados.Fuera;
 import com.example.transporte.modelo.estados.Libre;
 import com.example.transporte.modelo.estados.Transportando;
 
-public class Conductor {
+import java.io.Serializable;
+
+public class Conductor implements Serializable {
 
     private Estado estado;
 
@@ -32,8 +36,9 @@ public class Conductor {
         return true;
     }
 
-    public void nuevoViaje(String nombre, Ubicacion recogida, String referenciaRecogida, Ubicacion destino, String referenciaDestino){
-        viaje = new Viaje(new Pasajero(nombre,recogida,destino,referenciaDestino,referenciaRecogida));
+    public void nuevoViaje(String nombre, String recogidaLat, String recogidaLong, String referenciaRecogida, String destinoLat, String destinoLong, String referenciaDestino){
+
+        viaje = new Viaje(new Pasajero(nombre,new Ubicacion( recogidaLat, recogidaLong),new Ubicacion( destinoLat,destinoLong ),referenciaDestino,referenciaRecogida));
     }
 
     public Conductor(){
@@ -69,4 +74,12 @@ public class Conductor {
     }
 
     public Ubicacion getUbicacion(){    return ubicacion;    }
+
+    public Viaje getViaje() {
+        return viaje;
+    }
+
+    public Uri conducir() {
+        return estado.conducir(viaje);
+    }
 }

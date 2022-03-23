@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -43,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
                         conductor = new Conductor(usr.getText().toString(),pass.getText().toString());
                         Log.e("Usuario", usr.getText().toString());
                         Log.e("Password", pass.getText().toString());
-                        clase.conectarInicioSesion( getApplicationContext(), conductor );
+                        //clase.conectarInicioSesion( getApplicationContext(), conductor );
                         irAlMain();
 
                     }
@@ -54,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
     //          POR AHORA LO DEJAMOS PARA PROBAR PERO HAY QUE SACARLO DSP
     private void irAlMain() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.putExtra("conductor", (Serializable) conductor);
+        intent.putExtra("conductor", (Serializable) conductor );
         startActivity(intent);
     }
 
