@@ -118,7 +118,7 @@ public class WebGeolocalizacion {
         } 
     }
 
-    private String urlCoordenadaActual(Conductor conductor) {
+    private String urlCoordenadaActual(Conductor conductor) { //TODO
         String url="";
         url+= conductor.getUbicacion().getLatitud();
         url+= conductor.getUbicacion().getLongitud();

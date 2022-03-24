@@ -24,19 +24,7 @@ import java.io.Serializable;
 
 public class PopActivity extends Activity {
 
-    private LinearLayout informacionPasajero;
-
-    private TextView nombre,recogidaRef,destinoRef;
-
-    private Button btnAceptar;
-
     private Conductor conductor;
-
-    /*
-    *   Bloquear que no se pueda apretar afuera del pop-up
-    *   boton cancelar ---> pone el viaje en NULL(cancelar viaje)
-    *
-    * */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +36,11 @@ public class PopActivity extends Activity {
 
         getActionBar().hide();
 
-        btnAceptar = findViewById(R.id.btnAceptar);
-        btnAceptar.setOnClickListener(new View.OnClickListener() {
+        Button btnAceptar = findViewById( R.id.btnAceptar );
+        btnAceptar.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO habria que avisarle al servidor si acepto o no el viaje??
                 conductor.enCamino();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.putExtra("conductor", (Serializable) conductor);
@@ -59,6 +48,8 @@ public class PopActivity extends Activity {
                 finish();
             }
         });
+
+        //TODO boton cancelar y/o click afuera no hace nada
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -81,10 +72,10 @@ public class PopActivity extends Activity {
 
     public void reciboViaje(){
 
-        informacionPasajero = findViewById(R.id.infoPasajero);
-        nombre = findViewById(R.id.nombrePasajero);
-        recogidaRef = findViewById(R.id.recogidaReferencia);
-        destinoRef = findViewById(R.id.destinoReferencia);
+        LinearLayout informacionPasajero = findViewById( R.id.infoPasajero );
+        TextView nombre = findViewById( R.id.nombrePasajero );
+        TextView recogidaRef = findViewById( R.id.recogidaReferencia );
+        TextView destinoRef = findViewById( R.id.destinoReferencia );
 
         informacionPasajero.setVisibility(View.VISIBLE);
         nombre.setText(conductor.getViaje().getPasajero().getNombrePasajero());

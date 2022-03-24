@@ -31,9 +31,7 @@ public class Conductor implements Serializable {
     }
 
     public boolean tieneViaje(){
-        if(viaje == null)
-            return false;
-        return true;
+        return viaje != null;
     }
 
     public void nuevoViaje(String nombre, String recogidaLat, String recogidaLong, String referenciaRecogida, String destinoLat, String destinoLong, String referenciaDestino){

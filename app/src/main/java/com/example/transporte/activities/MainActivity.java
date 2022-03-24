@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         conductor = (Conductor) intent.getSerializableExtra( "conductor" );
-        //conductor = new Conductor();
         WebGeolocalizacion geoloc = new WebGeolocalizacion();
         WebEstados estados = new WebEstados();
 
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                     conductor.desconectar();
                     //stopTrackingLocation(); //TODO: NO FUNCIONA ESTO xd
                 }
-                    //estados.conectarEstadoNuevo( getApplicationContext(), conductor ); //????
+                    //estados.conectarEstadoNuevo( getApplicationContext(), conductor ); //TODO
             }
         });
 
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 conductor.transportando();
-                //estados.conectarEstadoNuevo( getApplicationContext(), conductor );
+                //estados.conectarEstadoNuevo( getApplicationContext(), conductor ); //TODO
                 botonABordo.setEnabled( false );
                 botonFinalizado.setEnabled( true );
             }
@@ -117,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 conductor.libre();
-                //estados.conectarEstadoNuevo( getApplicationContext(), conductor );
+                //estados.conectarEstadoNuevo( getApplicationContext(), conductor ); //TODO
                 botonFinalizado.setEnabled( false );
                 botonNavegar.setEnabled( false );
                 informacionPasajero.setVisibility(View.INVISIBLE);
@@ -145,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 if (locationResult.getLastLocation() != null) {
                     Log.e( "Latitud ", convert(locationResult.getLastLocation().getLatitude(),FORMAT_DEGREES)  );
                     Log.e( "Longitud ",convert(locationResult.getLastLocation().getLongitude(),FORMAT_DEGREES) );
-                    //geoloc.conectarCoordenadas( getApplicationContext(), conductor );
+                    //geoloc.conectarCoordenadas( getApplicationContext(), conductor ); //TODO
                 }
             }
         };
@@ -164,11 +163,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void viajeAceptado(){
-        //informacionPasajero.setVisibility(View.VISIBLE);
         botonABordo.setEnabled( true );
         botonNavegar.setEnabled( true );
         informacionPasajero.setVisibility(View.VISIBLE);
-        nombre.setText("Nombre del Pasajaero: "+conductor.getViaje().getPasajero().getNombrePasajero());
+        nombre.setText( "Nombre del Pasajaero: " + conductor.getViaje().getPasajero().getNombrePasajero() );
         recogidaRef.setText("Origen: "+conductor.getViaje().getPasajero().getReferenciaOrigen());
         destinoRef.setText("Destino: "+conductor.getViaje().getPasajero().getReferenciaDestino());
 
@@ -194,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
 
     private LocationRequest getLocationRequest() {
         LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(60000);     //TODO: Cambiar a 1min (60mil)
+        locationRequest.setInterval(60000);
         locationRequest.setFastestInterval(5000);
         locationRequest.setPriority( LocationRequest.PRIORITY_HIGH_ACCURACY);
         return locationRequest;

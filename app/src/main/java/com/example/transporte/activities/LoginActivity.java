@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        WebInicioSesion clase = new WebInicioSesion(); //Esta bien???
+        WebInicioSesion clase = new WebInicioSesion();
 
         inicioSesion = findViewById( R.id.btnIniciar );
         usr     =   findViewById( R.id.editTUsuario );

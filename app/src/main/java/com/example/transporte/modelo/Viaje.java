@@ -28,7 +28,7 @@ public class Viaje implements Serializable {
         return Uri.parse(format(ubicacionDestino.getLatitud(),ubicacionDestino.getLongitud()));
     }
 
-    private String format(String latitud,String longitud){
+    private String format(String latitud,String longitud){      //TODO ver si se puede hacer directamente a direcciones
         return "geo:0,0?q=" + latitud + "," +  longitud + "( Location title)";
     }
 
