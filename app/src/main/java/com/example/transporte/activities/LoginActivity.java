@@ -25,6 +25,9 @@ public class LoginActivity extends AppCompatActivity {
     Button inicioSesion;
     EditText usr, pass;
 
+    // TODO tema versiones de android
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                         conductor = new Conductor(usr.getText().toString(),pass.getText().toString());
                         Log.e("Usuario", usr.getText().toString());
                         Log.e("Password", pass.getText().toString());
+                        //TODO deberia leer un dato tipo imei o id
                         //clase.conectarInicioSesion( getApplicationContext(), conductor );
                         irAlMain();
 

@@ -40,7 +40,7 @@ public class PopActivity extends Activity {
         btnAceptar.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO habria que avisarle al servidor si acepto o no el viaje??
+                //TODO habria que avisarle al servidor si acepto o no el viaje
                 conductor.enCamino();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.putExtra("conductor", (Serializable) conductor);
@@ -49,7 +49,7 @@ public class PopActivity extends Activity {
             }
         });
 
-        //TODO boton cancelar y/o click afuera no hace nada
+        //TODO boton cancelar y/o click afuera no hace nada, y que si cancela diga porque (Voy a cargar combustible, pinché una rueda, se descompuso Vehículo, etc )
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);

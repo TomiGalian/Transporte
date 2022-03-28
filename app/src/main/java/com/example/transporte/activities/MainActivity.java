@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //TODO Cuando apreta el boton para atras pierde el viaje
+
         Intent intent = getIntent();
         conductor = (Conductor) intent.getSerializableExtra( "conductor" );
         WebGeolocalizacion geoloc = new WebGeolocalizacion();
