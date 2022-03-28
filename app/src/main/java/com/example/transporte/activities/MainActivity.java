@@ -2,6 +2,7 @@ package com.example.transporte.activities;
 
 import static android.location.Location.convert;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -214,6 +215,15 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+
+    }
+
+
 
 }
 
