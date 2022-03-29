@@ -45,14 +45,26 @@
             android:paddingTop="10sp"
             android:paddingBottom="10sp" />
 
-        <Button
-            android:id="@+id/btnAceptar"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:gravity="center"
-            android:text="Aceptar Viaje" />
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnAceptar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Aceptar Viaje" />
 
+            <Button
+                android:id="@+id/btnRechazar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="No tomar viaje" />
+
+        </LinearLayout>
     </LinearLayout>
 
 

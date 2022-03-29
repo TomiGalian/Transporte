@@ -20,6 +20,7 @@ import com.example.transporte.modelo.Conductor;
 import org.w3c.dom.Text;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 
 public class PopActivity extends Activity {
@@ -36,15 +37,28 @@ public class PopActivity extends Activity {
 
         getActionBar().hide();
 
+        this.setFinishOnTouchOutside(false); //GODDDD LO DESCUBRI RE DE PEDO AJAJAJAJ
+
+
         Button btnAceptar = findViewById( R.id.btnAceptar );
         btnAceptar.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //TODO habria que avisarle al servidor si acepto o no el viaje
                 conductor.enCamino();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent();
                 intent.putExtra("conductor", (Serializable) conductor);
-                startActivity(intent);
+                setResult(Activity.RESULT_OK,intent);
+                finish();
+            }
+        });
+
+        Button btnCancelar = findViewById(R.id.btnRechazar);
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO hay que darle motivos de por que cancela o solo si esta en camino?
+                //conductor.borrarViaje(); habria que borrar el viaje porque ya lo guardo no?
                 finish();
             }
         });
@@ -65,8 +79,6 @@ public class PopActivity extends Activity {
         params.x = 0;
         params.y = 200;
 
-        getWindow().setAttributes(params);
-
         reciboViaje();
     }
 
@@ -82,6 +94,8 @@ public class PopActivity extends Activity {
         recogidaRef.setText(conductor.getViaje().getPasajero().getReferenciaOrigen());
         destinoRef.setText(conductor.getViaje().getPasajero().getReferenciaDestino());
 
-
     }
+
+    @Override
+    public void onBackPressed() {/*XD*/}
 }

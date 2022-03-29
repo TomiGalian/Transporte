@@ -4,13 +4,18 @@ import static android.location.Location.convert;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Conductor conductor;
 
-    private Button botonABordo, botonFinalizado, botonNavegar;
+    private Button botonABordo, botonFinalizado, botonNavegar, botonCancelarViaje;
 
     private static final int REQUEST_LOCATION_PERMISSION = 1; //Se usa para chequear si tiene permiso
     private static final int FORMAT_DEGREES = 0;
@@ -58,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //TODO Cuando apreta el boton para atras pierde el viaje
 
         Intent intent = getIntent();
         conductor = (Conductor) intent.getSerializableExtra( "conductor" );
@@ -82,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                     conductor.nuevoViaje("Robertito","-34.63546964021847","-58.364756302115595","Bombonera","-34.814810596004655","-58.53482840210992","Aeropuerto Ezeiza");
                     Intent i = new Intent(getApplicationContext(),PopActivity.class);
                     i.putExtra("conductor", (Serializable) conductor );
-                    startActivity(i);
+                    startActivityForResult(i,1);
                 }
                 else{
                     conductor.desconectar();
@@ -98,20 +101,27 @@ public class MainActivity extends AppCompatActivity {
         destinoRef = findViewById(R.id.destinoReferencia);
 
         botonABordo = findViewById(R.id.btnPaxAbordo );
-        botonABordo.setEnabled( false );
         botonFinalizado = findViewById( R.id.btnFinViaje );
-        botonFinalizado.setEnabled( false );
         botonNavegar = findViewById( R.id.btnNavegar );
-        botonNavegar.setEnabled( false );
+        botonCancelarViaje = findViewById(R.id.btnCancelarViaje);
+        statusButton();
 
+
+        botonCancelarViaje.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                conductor.libre();
+                informacionPasajero.setVisibility(View.INVISIBLE);
+                statusButton();
+            }
+        });
 
         botonABordo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 conductor.transportando();
                 //estados.conectarEstadoNuevo( getApplicationContext(), conductor ); //TODO
-                botonABordo.setEnabled( false );
-                botonFinalizado.setEnabled( true );
+                statusButton();
             }
         });
 
@@ -120,8 +130,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 conductor.libre();
                 //estados.conectarEstadoNuevo( getApplicationContext(), conductor ); //TODO
-                botonFinalizado.setEnabled( false );
-                botonNavegar.setEnabled( false );
+                statusButton();
                 informacionPasajero.setVisibility(View.INVISIBLE);
 
             }
@@ -131,9 +140,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Uri uri =conductor.conducir();
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, uri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
 
             }
         } );
@@ -165,17 +174,34 @@ public class MainActivity extends AppCompatActivity {
         Log.e( "OnStart","Entro Al OnStart" );
     }
 
+    //TODO boton cancelar cuando estas en camino a buscar al pasajero (Voy a cargar combustible, pinché una rueda, se descompuso Vehículo, etc )
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 && resultCode == Activity.RESULT_OK){
+            conductor = (Conductor) data.getSerializableExtra("conductor");
+            statusButton();
+            viajeAceptado();
+        }
+    }
+
+    public void statusButton(){
+        botonABordo.setEnabled(conductor.estaEnCamino());
+        botonFinalizado.setEnabled(conductor.estaTransportando());
+        botonCancelarViaje.setEnabled(conductor.estaEnCamino());
+        botonNavegar.setEnabled(conductor.estaEnCamino()||conductor.estaTransportando());
+    }
+
     public void viajeAceptado(){
-        botonABordo.setEnabled( true );
-        botonNavegar.setEnabled( true );
+        statusButton();
         informacionPasajero.setVisibility(View.VISIBLE);
         nombre.setText( "Nombre del Pasajaero: " + conductor.getViaje().getPasajero().getNombrePasajero() );
         recogidaRef.setText("Origen: "+conductor.getViaje().getPasajero().getReferenciaOrigen());
         destinoRef.setText("Destino: "+conductor.getViaje().getPasajero().getReferenciaDestino());
 
-
     }
-
 
     private void startTrackingLocation() {
         if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {

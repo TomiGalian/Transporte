@@ -20,4 +20,9 @@ public class Transportando implements Estado{
     public Uri conducir(Viaje viaje) {
         return viaje.irHaciaDestino();
     }
+
+    @Override
+    public boolean estaTransportando(){
+        return true;
+    }
 }

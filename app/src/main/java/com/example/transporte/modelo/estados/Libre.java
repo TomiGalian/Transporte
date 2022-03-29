@@ -20,4 +20,6 @@ public class Libre implements Estado {
     public Uri conducir(Viaje viaje) {
         return null;
     }
+
+
 }

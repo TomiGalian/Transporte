@@ -13,4 +13,13 @@ public interface Estado extends Serializable {
     String getEstado();
 
     Uri conducir(Viaje viaje);
+
+    default boolean estaEnCamino(){
+        return false;
+    }
+
+    default boolean estaTransportando(){
+        return false;
+    }
+
 }

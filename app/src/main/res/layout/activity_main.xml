@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
+        android:checked="false"
         android:minHeight="48dp"
         android:text="En servicio"
         android:textSize="15sp"
@@ -31,6 +32,7 @@
         android:orientation="vertical"
         android:paddingHorizontal="10dp"
         android:visibility="invisible"
+        android:background="@drawable/pop_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,14 +84,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/btnNavegar"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
-        android:text="Navegar"
+        android:layout_marginBottom="32dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/btnPaxAbordo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btnNavegar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Navegar"
+            app:layout_constraintBottom_toTopOf="@+id/btnPaxAbordo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btnCancelarViaje"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Cancelar Viaje" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

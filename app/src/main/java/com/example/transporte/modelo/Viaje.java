@@ -29,7 +29,7 @@ public class Viaje implements Serializable {
     }
 
     private String format(String latitud,String longitud){      //TODO ver si se puede hacer directamente a direcciones
-        return "geo:0,0?q=" + latitud + "," +  longitud + "( Location title)";
+        return "google.navigation:q=" + latitud + "," +  longitud;
     }
 
 

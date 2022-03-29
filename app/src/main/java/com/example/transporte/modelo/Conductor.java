@@ -35,21 +35,14 @@ public class Conductor implements Serializable {
     }
 
     public void nuevoViaje(String nombre, String recogidaLat, String recogidaLong, String referenciaRecogida, String destinoLat, String destinoLong, String referenciaDestino){
-
         viaje = new Viaje(new Pasajero(nombre,new Ubicacion( recogidaLat, recogidaLong),new Ubicacion( destinoLat,destinoLong ),referenciaDestino,referenciaRecogida));
-    }
-
-    public Conductor(){
-        estado = new Fuera();
     }
 
     public void desconectar() {
         estado = new Fuera();
     }   //FUERA DE SERVICIO
 
-    public void enCamino(){
-        estado = new Camino();
-    }       //Esta yendo a buscar al pasajero
+    public void enCamino(){ estado = new Camino(); }
 
     public void transportando(){ estado = new Transportando(); }   //TIENE UN PASAJERO A BORDO DEL COCHE Y YENDO A DESTINO
 
@@ -57,10 +50,6 @@ public class Conductor implements Serializable {
 
     public boolean mandarUbicacion(){
         return estado.mandarUbicacion();
-    }
-
-    public String getEstado(){
-        return estado.getEstado();
     }
 
     public String getUsuario() {
@@ -80,4 +69,9 @@ public class Conductor implements Serializable {
     public Uri conducir() {
         return estado.conducir(viaje);
     }
+
+    public boolean estaEnCamino(){ return estado.estaEnCamino(); }
+
+    public boolean estaTransportando(){ return estado.estaTransportando(); }
+
 }

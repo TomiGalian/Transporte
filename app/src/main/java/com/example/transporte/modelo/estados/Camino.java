@@ -21,5 +21,10 @@ public class Camino implements Estado{
         return viaje.recogerPasajero();
     }
 
+    @Override
+    public boolean estaEnCamino(){
+        return true;
+    }
+
 
 }
