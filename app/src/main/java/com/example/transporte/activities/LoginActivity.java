@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.telephony.TelephonyManager;
@@ -26,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     Conductor conductor;
     Button inicioSesion;
     EditText usr, pass;
+    String UUID;
 
     // TODO tema versiones de android
 
@@ -34,6 +36,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        obtenerClaveUnica();
+        Log.e("ClaveUnica",UUID);
 
         WebInicioSesion clase = new WebInicioSesion();
 
@@ -55,6 +60,22 @@ public class LoginActivity extends AppCompatActivity {
 
                     }
                 });
+
+    }
+
+    private void obtenerClaveUnica (){
+        SharedPreferences prefs = getSharedPreferences("UUID", MODE_PRIVATE);
+        String clave = prefs.getString("clave", "");
+        Log.e("ClaveRecibida",clave);
+        if(clave.isEmpty()){
+            UUID = java.util.UUID.randomUUID().toString();
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("clave",UUID);
+            editor.apply();
+        }
+        else{
+            UUID = clave;
+        }
     }
 
     //          OJO ACA QUE EL INTENT TIENE QUE IR SI EL WEB RESPONDIO TODO OK
