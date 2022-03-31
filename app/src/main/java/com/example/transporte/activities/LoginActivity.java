@@ -29,7 +29,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText usr, pass;
     String UUID;
 
-    // TODO tema versiones de android
+    // TODO tema versiones de android , POP-UP + Multitareas bug?
+
 
 
     @Override
@@ -54,8 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                         conductor = new Conductor(usr.getText().toString(),pass.getText().toString());
                         Log.e("Usuario", usr.getText().toString());
                         Log.e("Password", pass.getText().toString());
-                        //TODO deberia leer un dato tipo imei o id
-                        //clase.conectarInicioSesion( getApplicationContext(), conductor );
+                        //clase.conectarInicioSesion( getApplicationContext(), conductor, UUID );
                         irAlMain();
 
                     }

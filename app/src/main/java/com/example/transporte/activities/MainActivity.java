@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         aSwitch = findViewById(R.id.swEstado);
         if(conductor.mandarUbicacion()){
             aSwitch.setChecked( true );
-
+            startTrackingLocation();
         }
 
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -83,13 +83,14 @@ public class MainActivity extends AppCompatActivity {
                 if(isChecked){
                     conductor.libre();
                     conductor.nuevoViaje("Robertito","-34.63546964021847","-58.364756302115595","Bombonera","-34.814810596004655","-58.53482840210992","Aeropuerto Ezeiza");
+                    startTrackingLocation();
                     Intent i = new Intent(getApplicationContext(),PopActivity.class);
                     i.putExtra("conductor", (Serializable) conductor );
                     startActivityForResult(i,1);
                 }
                 else{
                     conductor.desconectar();
-                    //stopTrackingLocation(); //TODO: NO FUNCIONA ESTO xd
+                    stopTrackingLocation();
                 }
                     //estados.conectarEstadoNuevo( getApplicationContext(), conductor ); //TODO
             }
@@ -113,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 conductor.libre();
                 informacionPasajero.setVisibility(View.INVISIBLE);
                 statusButton();
+                //estados.conectarEstadoNuevo( getApplicationContext(),conductor );
             }
         });
 
@@ -153,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                 if (locationResult == null) {
                     return;
                 }
-                if (locationResult.getLastLocation() != null) {
+                if (locationResult.getLastLocation() != null && mTrackingLocation) {
                     Log.e( "Latitud ", convert(locationResult.getLastLocation().getLatitude(),FORMAT_DEGREES)  );
                     Log.e( "Longitud ",convert(locationResult.getLastLocation().getLongitude(),FORMAT_DEGREES) );
                     //geoloc.conectarCoordenadas( getApplicationContext(), conductor ); //TODO
@@ -167,15 +169,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-    @Override
-    protected void onStart() {
-        super.onStart();
-        startTrackingLocation();
-        Log.e( "OnStart","Entro Al OnStart" );
-    }
 
     //TODO boton cancelar cuando estas en camino a buscar al pasajero (Voy a cargar combustible, pinché una rueda, se descompuso Vehículo, etc )
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

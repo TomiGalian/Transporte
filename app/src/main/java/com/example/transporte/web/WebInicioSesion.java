@@ -26,12 +26,12 @@ public class WebInicioSesion {
     private RequestQueue queue;
 
 
-    public void conectarInicioSesion(Context context, Conductor conductor)  {
+    public void conectarInicioSesion(Context context, Conductor conductor, String UUID)  {
 
         queue = Volley.newRequestQueue(context);
 
         StringRequest stringRequest = new StringRequest( Request.Method.GET,
-                urlInicioSesion(conductor),
+                urlInicioSesion(conductor, UUID),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -116,7 +116,7 @@ public class WebInicioSesion {
         }
     }
 
-    private String urlInicioSesion(Conductor conductor) { //TODO
+    private String urlInicioSesion(Conductor conductor, String UUID) { //TODO
         String url="";
         url += conductor.getUsuario();
         url += conductor.getContraseña();
