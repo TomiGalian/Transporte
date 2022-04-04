@@ -111,10 +111,8 @@ public class MainActivity extends AppCompatActivity {
         botonCancelarViaje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                conductor.libre();
-                informacionPasajero.setVisibility(View.INVISIBLE);
-                statusButton();
-                //estados.conectarEstadoNuevo( getApplicationContext(),conductor );
+                Intent i = new Intent(getApplicationContext(),PopCancelarViajeActivity.class);
+                startActivityForResult(i,2);
             }
         });
 
@@ -180,6 +178,13 @@ public class MainActivity extends AppCompatActivity {
             statusButton();
             viajeAceptado();
         }
+        if(requestCode == 2 && resultCode == Activity.RESULT_OK){
+            //Mandar motivo de viaje
+            //data.getStringExtra("motivo");
+            informacionPasajero.setVisibility(View.INVISIBLE);
+            conductor.libre();
+            statusButton();
+        }
     }
 
     public void statusButton(){
@@ -236,14 +241,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        finish();
-
-    }
-
 
 
 }

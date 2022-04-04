@@ -15,9 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Transporte">
         <activity
-            android:name=".activities.PopActivity"
-            android:theme="@style/Theme.PopMe"
+            android:name=".activities.PopCancelarViajeActivity"
             android:exported="false" />
+        <activity
+            android:name=".activities.PopActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PopMe" />
         <activity
             android:name=".activities.MainActivity"
             android:exported="false" />

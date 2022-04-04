@@ -84,31 +84,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+
+    <Button
+        android:id="@+id/btnNavegar"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/white"
+        android:text="HO"
+        app:layout_constraintBottom_toTopOf="@+id/btnCancelarViaje"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnCancelarViaje"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:orientation="horizontal"
+        android:layout_marginBottom="16dp"
+        android:text="Cancelar Viaje"
         app:layout_constraintBottom_toTopOf="@+id/btnPaxAbordo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <Button
-            android:id="@+id/btnNavegar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Navegar"
-            app:layout_constraintBottom_toTopOf="@+id/btnPaxAbordo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/btnCancelarViaje"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Cancelar Viaje" />
-    </LinearLayout>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
