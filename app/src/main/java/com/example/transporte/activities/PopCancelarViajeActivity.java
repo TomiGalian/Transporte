@@ -11,6 +11,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,15 +35,21 @@ public class PopCancelarViajeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pop_cancelar_viaje);
 
-        getActionBar().hide();
+        //getActionBar().hide();
 
         this.setFinishOnTouchOutside(false); //GODDDD LO DESCUBRI RE DE PEDO AJAJAJAJ
 
-        Button btnAceptar = findViewById( R.id.btnAceptar );
+        Button btnAceptar = findViewById( R.id.btnAceptar2 );
+        CheckBox chOpcionA = findViewById( R.id.checkbox_a );
+        CheckBox chOpcionB = findViewById( R.id.checkbox_b );
+        CheckBox chOpcionC = findViewById( R.id.checkbox_c );
+        CheckBox chOpcionD = findViewById( R.id.checkbox_d );
+        EditText etRazon = findViewById( R.id.editTRazon );
+        etRazon.setVisibility( View.INVISIBLE );
+
         btnAceptar.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO habria que avisarle al servidor si acepto o no el viaje
                 Intent intent = new Intent();
                 intent.putExtra("motivo","motivo");
                 setResult(Activity.RESULT_OK,intent);
@@ -49,8 +57,22 @@ public class PopCancelarViajeActivity extends Activity {
             }
         });
 
+        chOpcionA.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        //TODO boton cancelar y/o click afuera no hace nada, y que si cancela diga porque (Voy a cargar combustible, pinché una rueda, se descompuso Vehículo, etc )
+            }
+        });
+
+        chOpcionD.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                etRazon.setVisibility( View.VISIBLE );
+            }
+        });
+
+
+
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
